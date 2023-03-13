@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33110.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryTiles", "MemoryTiles\MemoryTiles.csproj", "{1D12AA82-6EA7-4CCD-BC69-1A500D796703}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1D12AA82-6EA7-4CCD-BC69-1A500D796703}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D12AA82-6EA7-4CCD-BC69-1A500D796703}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D12AA82-6EA7-4CCD-BC69-1A500D796703}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D12AA82-6EA7-4CCD-BC69-1A500D796703}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B0533102-C3A5-4889-96C5-F9CCBEBED0F0}
+	EndGlobalSection
+EndGlobal
