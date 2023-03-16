@@ -1,7 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <users>
   <user>
-    <name>lari</name>
-    <profilepic>images/cat.jpg</profilepic>
+    <name>Bobo</name>
+    <profilepic>images/beach.jpg</profilepic>
+  </user>
+  <user>
+    <name>User</name>
+    <profilepic>images/redflower.jpg</profilepic>
+  </user>
+  <user>
+    <name>Player</name>
+    <profilepic>images/duck.jpg</profilepic>
+  </user>
+  <user>
+    <name>User2</name>
+    <profilepic>images/airplane.jpg</profilepic>
+  </user>
+  <user>
+    <name>l</name>
+    <profilepic>images/butterfly.jpg</profilepic>
+  </user>
+  <user>
+    <name>User2</name>
+    <profilepic>images/airplane.jpg</profilepic>
   </user>
 </users>

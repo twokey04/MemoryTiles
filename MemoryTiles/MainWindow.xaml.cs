@@ -74,7 +74,7 @@ namespace MemoryTiles
             buttonPlay.Visibility = Visibility.Hidden;
 
             XmlDocument doc = new XmlDocument();
-            doc.Load("C:\\Users\\b\\Desktop\\MemoryTiles\\MemoryTiles\\users\\users.xml");
+            doc.Load("../../users/users.xml");
 
             XmlNodeList docUsers = doc.GetElementsByTagName("name");
 
@@ -105,7 +105,7 @@ namespace MemoryTiles
                 buttonPlay.Visibility = Visibility.Visible;
 
                 XmlDocument doc = new XmlDocument();
-                doc.Load("C:\\Users\\b\\Desktop\\MemoryTiles\\MemoryTiles\\users\\users.xml");
+                doc.Load("../../users/users.xml");
 
                 XmlNodeList docUsers = doc.GetElementsByTagName("user");
 
@@ -119,7 +119,7 @@ namespace MemoryTiles
 
         private void buttonDeleteUser_Click(object sender, RoutedEventArgs e)
         {
-            XDocument xmlDoc = XDocument.Load("C:\\Users\\b\\Desktop\\MemoryTiles\\MemoryTiles\\users\\users.xml");
+            XDocument xmlDoc = XDocument.Load("../../users/users.xml");
 
             XElement nodeToDelete = xmlDoc.Descendants("user")
                                           .Where(x => (string)x.Element("name") == userList.SelectedItem.ToString())
@@ -130,7 +130,7 @@ namespace MemoryTiles
                 nodeToDelete.Remove();
             }
 
-            xmlDoc.Save("C:\\Users\\b\\Desktop\\MemoryTiles\\MemoryTiles\\users\\users.xml");
+            xmlDoc.Save("../../users/users.xml");
             userList.Items.Clear();
             profilePicture.Source = null;
             InitializeUserList();

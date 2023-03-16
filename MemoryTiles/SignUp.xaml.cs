@@ -99,14 +99,14 @@ namespace MemoryTiles
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {           
             XmlDocument XmlDocObj = new XmlDocument();
-            XmlDocObj.Load("C:\\Users\\b\\Desktop\\MemoryTiles\\MemoryTiles\\users\\users.xml");
+            XmlDocObj.Load("../../users/users.xml");
             XmlNode RootNode = XmlDocObj.SelectSingleNode("users");
             XmlNode userNode = RootNode.AppendChild(XmlDocObj.CreateNode(XmlNodeType.Element, "user", ""));
 
             userNode.AppendChild(XmlDocObj.CreateNode(XmlNodeType.Element, "name", "")).InnerText = newUsernameText.Text;
             userNode.AppendChild(XmlDocObj.CreateNode(XmlNodeType.Element, "profilepic", "")).InnerText = imagePaths[currentPhotoIndex];
 
-            XmlDocObj.Save("C:\\Users\\b\\Desktop\\MemoryTiles\\MemoryTiles\\users\\users.xml");
+            XmlDocObj.Save("../../users/users.xml");
 
             MainWindow window = new MainWindow();
             window.Show();
