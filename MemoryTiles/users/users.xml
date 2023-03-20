@@ -2,26 +2,14 @@
 <users>
   <user>
     <name>Bobo</name>
-    <profilepic>images/beach.jpg</profilepic>
+    <profilepic>images/horses.jpg</profilepic>
   </user>
   <user>
-    <name>User</name>
-    <profilepic>images/redflower.jpg</profilepic>
+    <name>Larisa</name>
+    <profilepic>images/cat.jpg</profilepic>
   </user>
   <user>
-    <name>Player</name>
-    <profilepic>images/duck.jpg</profilepic>
-  </user>
-  <user>
-    <name>User2</name>
-    <profilepic>images/airplane.jpg</profilepic>
-  </user>
-  <user>
-    <name>l</name>
-    <profilepic>images/butterfly.jpg</profilepic>
-  </user>
-  <user>
-    <name>User2</name>
+    <name>PlayerTest</name>
     <profilepic>images/airplane.jpg</profilepic>
   </user>
 </users>

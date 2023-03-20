@@ -57,9 +57,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AboutWindow.xaml.cs">
+      <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomGame.xaml.cs">
+      <DependentUpon>CustomGame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Play.xaml.cs">
+      <DependentUpon>Play.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SignUp.xaml.cs">
       <DependentUpon>SignUp.xaml</DependentUpon>
     </Compile>
+    <Page Include="AboutWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomGame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -72,6 +89,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Play.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SignUp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -129,9 +150,29 @@
     <Resource Include="images\skater.jpg" />
     <Resource Include="images\snowflake.jpg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="tiles\mrkrabs.png" />
+    <Resource Include="tiles\planckton_remote.png" />
+    <Resource Include="tiles\sandy.png" />
+    <Resource Include="tiles\spongebob_balloon.png" />
+    <Resource Include="tiles\spongebob_book.png" />
+    <Resource Include="tiles\spongebob_brain.png" />
+    <Resource Include="tiles\spongebob_meme.png" />
+    <Resource Include="tiles\spongebob_scream.png" />
+    <Resource Include="tiles\squidward.png" />
+    <Resource Include="tiles\squidward_sexy.png" />
+    <Resource Include="tiles\triplet.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="users\users.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="tiles\friends.png" />
+    <Resource Include="tiles\run.png" />
+    <Resource Include="tiles\saliva.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="tiles\fire.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

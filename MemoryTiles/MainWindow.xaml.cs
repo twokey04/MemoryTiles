@@ -16,7 +16,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
 using System.Xml.Linq;
-using System.Windows;
 using System.Windows.Forms;
 
 namespace MemoryTiles
@@ -70,8 +69,8 @@ namespace MemoryTiles
         }
         private void InitializeUserList()
         {
-            buttonDeleteUser.Visibility = Visibility.Hidden;
-            buttonPlay.Visibility = Visibility.Hidden;
+            buttonDeleteUser.IsEnabled = false;
+            buttonPlay.IsEnabled = false;
 
             XmlDocument doc = new XmlDocument();
             doc.Load("../../users/users.xml");
@@ -101,8 +100,8 @@ namespace MemoryTiles
         {
             if(userList.SelectedItem != null)
             {
-                buttonDeleteUser.Visibility = Visibility.Visible;
-                buttonPlay.Visibility = Visibility.Visible;
+                buttonDeleteUser.IsEnabled = true;
+                buttonPlay.IsEnabled = true;
 
                 XmlDocument doc = new XmlDocument();
                 doc.Load("../../users/users.xml");
@@ -134,6 +133,13 @@ namespace MemoryTiles
             userList.Items.Clear();
             profilePicture.Source = null;
             InitializeUserList();
+        }
+
+        private void buttonPlay_Click(object sender, RoutedEventArgs e)
+        {
+            Window playWindow = new Play(userList.SelectedItem.ToString());
+            playWindow.Show();
+            Close();
         }
     }
 }

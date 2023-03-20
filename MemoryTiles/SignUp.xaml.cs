@@ -15,13 +15,15 @@ using System.Xml.Linq;
 using System.Xml;
 using System.IO;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Text.RegularExpressions;
 
 namespace MemoryTiles
 {
     /// <summary>
     /// Interaction logic for SignUp.xaml
     /// </summary>
-    public partial class SignUp : Window
+    public partial class SignUp : System.Windows.Window
     {
         private int currentPhotoIndex = 0;
 
@@ -93,25 +95,60 @@ namespace MemoryTiles
         }
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
-            Hide();
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            Close();
         }
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
-        {           
-            XmlDocument XmlDocObj = new XmlDocument();
-            XmlDocObj.Load("../../users/users.xml");
-            XmlNode RootNode = XmlDocObj.SelectSingleNode("users");
-            XmlNode userNode = RootNode.AppendChild(XmlDocObj.CreateNode(XmlNodeType.Element, "user", ""));
+        {
 
-            userNode.AppendChild(XmlDocObj.CreateNode(XmlNodeType.Element, "name", "")).InnerText = newUsernameText.Text;
-            userNode.AppendChild(XmlDocObj.CreateNode(XmlNodeType.Element, "profilepic", "")).InnerText = imagePaths[currentPhotoIndex];
+            if (existsUsername())
+            {
+                warningLabel.Content = "Username with this name already exists";
+                return;
+            }
+            if (string.IsNullOrEmpty(newUsernameText.Text) || string.IsNullOrWhiteSpace(newUsernameText.Text) || !Regex.IsMatch(newUsernameText.Text, "^[a-zA-Z0-9]+$"))
+            {
+                warningLabel.Content = "Invalid username";
+                return;
+            }
+            else
+            {
+                XmlDocument XmlDocObj = new XmlDocument();
+                XmlDocObj.Load("../../users/users.xml");
+                XmlNode RootNode = XmlDocObj.SelectSingleNode("users");
+                XmlNode userNode = RootNode.AppendChild(XmlDocObj.CreateNode(XmlNodeType.Element, "user", ""));
 
-            XmlDocObj.Save("../../users/users.xml");
+                userNode.AppendChild(XmlDocObj.CreateNode(XmlNodeType.Element, "name", "")).InnerText = newUsernameText.Text;
+                userNode.AppendChild(XmlDocObj.CreateNode(XmlNodeType.Element, "profilepic", "")).InnerText = imagePaths[currentPhotoIndex];
 
-            MainWindow window = new MainWindow();
-            window.Show();
+                XmlDocObj.Save("../../users/users.xml");
 
-            Close();
+                MainWindow window = new MainWindow();
+                window.Show();
+
+                Close();
+            }
+        }
+
+        private bool existsUsername()
+        {
+            XmlReader reader = XmlReader.Create("../../users/users.xml");
+            while (reader.Read())
+            {
+                if (reader.NodeType == XmlNodeType.Element && reader.Name == "name")
+                {
+                    reader.Read();
+                    string name = reader.Value;
+                    if(newUsernameText.Text.ToString().ToLower() == name.ToLower())
+                    {
+                        return true;
+                    }
+                }
+            }
+            reader.Close();
+            return false;
         }
     }
 }

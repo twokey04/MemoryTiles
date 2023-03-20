@@ -12,7 +12,7 @@
         <ListBox x:Name="userList" HorizontalAlignment="Left" Height="182" Margin="107,118,0,0" VerticalAlignment="Top" Width="207" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="userList_SelectionChanged"/>
         <Button x:Name="buttonNewUser" Content="New User" HorizontalAlignment="Left" Margin="107,367,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.618,0.503" Width="65" Click="buttonNewUser_Click"/>
         <Button x:Name="buttonDeleteUser" Content="Delete User" HorizontalAlignment="Left" Margin="249,367,0,0" VerticalAlignment="Top" Click="buttonDeleteUser_Click"/>
-        <Button x:Name="buttonPlay" Content="Play" HorizontalAlignment="Left" Margin="400,367,0,0" VerticalAlignment="Top" Width="65"/>
+        <Button x:Name="buttonPlay" Content="Play" HorizontalAlignment="Left" Margin="400,367,0,0" VerticalAlignment="Top" Width="65" Click="buttonPlay_Click"/>
         <Button x:Name="buttonCancel" Content="Quit" HorizontalAlignment="Left" Margin="644,367,0,0" VerticalAlignment="Top" Width="65" Click="buttonCancel_Click"/>
         <Image x:Name="profilePicture" HorizontalAlignment="Left" Height="145" Margin="478,132,0,0" VerticalAlignment="Top" Width="147"/>
 
