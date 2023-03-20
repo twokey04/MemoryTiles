@@ -8,7 +8,7 @@
         Title="MainWindow" Height="450" Width="800">
 
     <Grid RenderTransformOrigin="0.502,0.477">
-        <Label Content="Welcome! Enjoy this game!" HorizontalAlignment="Center" Margin="0,29,0,0" VerticalAlignment="Top" Height="34" Width="156"/>
+        <Label Content="Welcome! Enjoy this game!" FontSize="24" HorizontalAlignment="Center" Margin="0,29,0,0" VerticalAlignment="Top" Height="43" Width="299"/>
         <ListBox x:Name="userList" HorizontalAlignment="Left" Height="182" Margin="107,118,0,0" VerticalAlignment="Top" Width="207" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="userList_SelectionChanged"/>
         <Button x:Name="buttonNewUser" Content="New User" HorizontalAlignment="Left" Margin="107,367,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.618,0.503" Width="65" Click="buttonNewUser_Click"/>
         <Button x:Name="buttonDeleteUser" Content="Delete User" HorizontalAlignment="Left" Margin="249,367,0,0" VerticalAlignment="Top" Click="buttonDeleteUser_Click"/>
