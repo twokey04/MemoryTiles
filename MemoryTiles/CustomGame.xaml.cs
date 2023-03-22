@@ -73,7 +73,17 @@ namespace MemoryTiles
 
                 if ((rows * columns) % 2 != 0)
                 {
+                    rowsBox.Text = "";
+                    columnsBox.Text = "";
                     warningBox.Content = "The number of rows multiplied by\nthe number of columns must be a multiple of 2";
+                    return;
+                }
+                else if(rows <= 1 || columns <= 1)
+                {
+                    rowsBox.Text = "";
+                    columnsBox.Text = "";
+                    warningBox.Content = "The numbers must be higher than 1";
+                    return;
                 }
                 else
                 {

@@ -71,11 +71,11 @@ namespace MemoryTiles
 
         public Play(string playerName, List<string> buttonsContent, string[] configuration, int rows = 6, int columns = 6, int level = 1, int guessed = 0)
         {
-            this.currentLevelIndex = level;
             this.playerName = playerName;
             this.rows = rows;
             this.columns = columns;
             this.pairsRevealed = guessed;
+            this.currentLevelIndex = level;
 
 
             InitializeComponent();
@@ -113,6 +113,8 @@ namespace MemoryTiles
                         .ToArray();
             else
                 tiles = configuration;
+
+            UpdatePlayedGames(playerName);
 
             SpawnInCenterOfScreen();
         }
@@ -216,6 +218,7 @@ namespace MemoryTiles
                     }
                 }
                 doc.Save("../../users/users.xml");
+                UpdateWonGames(playerName);
                 System.Windows.MessageBox.Show("You win!");
                 return;
             }
@@ -347,7 +350,8 @@ namespace MemoryTiles
 
         private void statisticsClicked(object sender, RoutedEventArgs e)
         {
-
+            Statistics statisticsWindow = new Statistics(playerName);
+            statisticsWindow.ShowDialog();
         }
 
         private void exitClicked(object sender, RoutedEventArgs e)
@@ -526,6 +530,60 @@ namespace MemoryTiles
             userGrid.Children.Add(playerimage);
 
             return userGrid;
+        }
+
+        private void UpdatePlayedGames(string name)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.Load("../../users/users.xml");
+
+            string tmp = "0";
+
+            XmlNode userNode = doc.SelectSingleNode("/users/user[name='" + name + "']");
+
+            if (userNode != null)
+            {
+                XmlNode gamesPlayedNode = userNode.SelectSingleNode("gamesplayed");
+                if (gamesPlayedNode != null)
+                {
+                    tmp = gamesPlayedNode.InnerText.ToString();
+                    userNode.RemoveChild(gamesPlayedNode);
+                }
+
+                gamesPlayedNode = doc.CreateElement("gamesplayed");
+                gamesPlayedNode.InnerText = (Convert.ToInt64(tmp.ToString()) + 1).ToString();
+
+                userNode.AppendChild(gamesPlayedNode);
+
+                doc.Save("../../users/users.xml");
+            }
+        }
+
+        private void UpdateWonGames(string name)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.Load("../../users/users.xml");
+
+            string tmp = "0";
+
+            XmlNode userNode = doc.SelectSingleNode("/users/user[name='" + name + "']");
+
+            if (userNode != null)
+            {
+                XmlNode gamesWonNode = userNode.SelectSingleNode("gameswon");
+                if (gamesWonNode != null)
+                {
+                    tmp = gamesWonNode.InnerText.ToString();
+                    userNode.RemoveChild(gamesWonNode);
+                }
+
+                gamesWonNode = doc.CreateElement("gameswon");
+                gamesWonNode.InnerText = (Convert.ToInt64(tmp.ToString()) + 1).ToString();
+
+                userNode.AppendChild(gamesWonNode);
+
+                doc.Save("../../users/users.xml");
+            }
         }
 
     }
