@@ -2,14 +2,32 @@
 <users>
   <user>
     <name>Bobo</name>
-    <profilepic>images/horses.jpg</profilepic>
+    <profilepic>images/airplane.jpg</profilepic>
   </user>
   <user>
     <name>Larisa</name>
     <profilepic>images/cat.jpg</profilepic>
-  </user>
-  <user>
-    <name>PlayerTest</name>
-    <profilepic>images/airplane.jpg</profilepic>
+    <savedgame>
+      <matrix rows="2" cols="3" level="1" guessed="2">
+        <row>
+          <button>tiles/mrkrabs.png</button>
+          <button>?</button>
+          <button>tiles/sandy.png</button>
+        </row>
+        <row>
+          <button>?</button>
+          <button>tiles/sandy.png</button>
+          <button>tiles/mrkrabs.png</button>
+        </row>
+      </matrix>
+      <configuration>
+        <tile>tiles/mrkrabs.png</tile>
+        <tile>tiles/planckton_remote.png</tile>
+        <tile>tiles/sandy.png</tile>
+        <tile>tiles/planckton_remote.png</tile>
+        <tile>tiles/sandy.png</tile>
+        <tile>tiles/mrkrabs.png</tile>
+      </configuration>
+    </savedgame>
   </user>
 </users>

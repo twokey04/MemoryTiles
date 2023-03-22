@@ -29,12 +29,26 @@ namespace MemoryTiles
 
         public int GetRows()
         {
-            return Convert.ToInt32(rowsBox.Text);
+            try
+            {
+                return Convert.ToInt32(rowsBox.Text);
+            }
+            catch
+            {
+                return 6;
+            }
         }
 
         public int GetColumns()
         {
-            return Convert.ToInt32(columnsBox.Text);
+            try
+            {
+                return Convert.ToInt32(columnsBox.Text);
+            }
+            catch
+            {
+                return 6;
+            }
         }
 
         private void SpawnInCenterOfScreen()
@@ -63,7 +77,7 @@ namespace MemoryTiles
                 }
                 else
                 {
-                    Hide();
+                    Close();
                     return;
                 }
             }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml;
 using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace MemoryTiles
 {
@@ -35,12 +37,13 @@ namespace MemoryTiles
 
         Grid levelGrid;
         System.Windows.Controls.Label currentLevel;
-        int currentLevelIndex = 1;
+        int currentLevelIndex;
 
         Grid userGrid;
         string playerName;
         Image playerimage;
         System.Windows.Controls.Label playerLabel;
+        List<string> tmpImages;
 
         List<System.Windows.Controls.Button> buttonList= new List<System.Windows.Controls.Button>();
 
@@ -60,19 +63,20 @@ namespace MemoryTiles
                 "tiles/friends.png",               
                 "tiles/saliva.png",               
                 "tiles/run.png",               
-                "tiles/fire.png"               
+                "tiles/fire.png",
+                "tiles/patrick_dumb.png",
+                "tiles/patrick_baby.png",
+                "tiles/sp_patrick.png"
             };
 
-        public Play(string playerName, int rows=4, int columns=4)
+        public Play(string playerName, List<string> buttonsContent, string[] configuration, int rows = 6, int columns = 6, int level = 1, int guessed = 0)
         {
+            this.currentLevelIndex = level;
             this.playerName = playerName;
             this.rows = rows;
             this.columns = columns;
+            this.pairsRevealed = guessed;
 
-            tiles = Enumerable.Range(1, rows * columns / 2)
-                    .SelectMany(i => new[] { imagePaths[i] , imagePaths[i] })
-                    .OrderBy(i => Guid.NewGuid())
-                    .ToArray();
 
             InitializeComponent();
 
@@ -82,6 +86,33 @@ namespace MemoryTiles
             windowGrid.Children.Add(GenerateLevelGrid());
             windowGrid.Children.Add(GenerateUserGrid());
             Content = windowGrid;
+
+            tmpImages = new List<string>();
+            if (buttonsContent != null)
+                for (int i = 0; i < buttonsContent.Count(); i++)
+                {
+                    if (buttonsContent[i] == "?")
+                    {
+                        buttonList[i].Content = buttonsContent[i];
+                    }
+                    else
+                    {
+                        Image image = new Image();
+                        image.Source = new BitmapImage(new Uri(buttonsContent[i], UriKind.Relative));
+                        buttonList[i].Content = image;
+                        buttonList[i].IsEnabled = false;
+                        imagePaths.Remove(buttonsContent[i]);
+                        tmpImages.Add(buttonsContent[i]);
+                    }
+
+                }
+            if (configuration == null)
+                tiles = Enumerable.Range(0, rows * columns / 2)
+                        .SelectMany(i => new[] { imagePaths[i], imagePaths[i] })
+                        .OrderBy(i => Guid.NewGuid())
+                        .ToArray();
+            else
+                tiles = configuration;
 
             SpawnInCenterOfScreen();
         }
@@ -145,7 +176,7 @@ namespace MemoryTiles
                             btn.Content = "?";
                             btn.IsEnabled = true;
                         }
-                        tiles = Enumerable.Range(1, rows * columns / 2)
+                        tiles = Enumerable.Range(0, rows * columns / 2)
                             .SelectMany(i => new[] { imagePaths[i], imagePaths[i] })
                             .OrderBy(i => Guid.NewGuid())
                             .ToArray();
@@ -154,6 +185,7 @@ namespace MemoryTiles
                 }
                 else
                 {
+
                     await Task.Delay(TimeSpan.FromSeconds(0.15));
 
                     previousButton.Content = "?";
@@ -171,6 +203,19 @@ namespace MemoryTiles
                 {
                     btn.IsEnabled = false;
                 }
+                XmlDocument doc = new XmlDocument();
+                doc.Load("../../users/users.xml");
+
+                XmlNode userNode = doc.SelectSingleNode("/users/user[name='" + playerName + "']");
+                if (userNode != null)
+                {
+                    XmlNode savedgameNode = userNode.SelectSingleNode("savedgame");
+                    if (savedgameNode != null)
+                    {
+                        userNode.RemoveChild(savedgameNode);
+                    }
+                }
+                doc.Save("../../users/users.xml");
                 System.Windows.MessageBox.Show("You win!");
                 return;
             }
@@ -181,17 +226,17 @@ namespace MemoryTiles
             Window newGame;
             if (standardMenuItem.IsChecked && !customMenuItem.IsChecked)
             {
-                newGame = new Play(playerName);                
+                newGame = new Play(playerName, null, null);                
             }
             else if (customMenuItem.IsChecked && !standardMenuItem.IsChecked)
             {
                 CustomGame tmp = new CustomGame();
                 tmp.ShowDialog();
-                newGame = new Play(playerName, tmp.GetRows(), tmp.GetColumns());
+                newGame = new Play(playerName, null, null, tmp.GetRows(), tmp.GetColumns());
             }
             else
             {
-                newGame = new Play(playerName);               
+                newGame = new Play(playerName, null, null);               
             }
             Hide();
             newGame.Show();
@@ -200,12 +245,104 @@ namespace MemoryTiles
 
         private void openGameClicked(object sender, RoutedEventArgs e)
         {
+            List<string> buttonContents = new List<string>();
+            int rows = 0, cols = 0, level = 1, guessed = 0;
+            string[] configurationSaved = new string[imagePaths.Count];
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load("../../users/users.xml");
+
+            XmlNode userNode = doc.SelectSingleNode("/users/user[name='" + playerName + "']");
+            if (userNode != null)
+            {
+                XmlNode matrixNode = userNode.SelectSingleNode("savedgame/matrix");
+                if (matrixNode != null)
+                {
+                    rows = int.Parse(matrixNode.Attributes["rows"].Value);
+                    cols = int.Parse(matrixNode.Attributes["cols"].Value);
+                    level = int.Parse(matrixNode.Attributes["level"].Value);
+                    guessed = int.Parse(matrixNode.Attributes["guessed"].Value);
+
+                    foreach (XmlNode rowNode in matrixNode.ChildNodes)
+                    {
+                        foreach (XmlNode buttonNode in rowNode.ChildNodes)
+                        {
+                            buttonContents.Add(buttonNode.InnerText);
+                        }
+                    }
+
+                }
+                XmlNode configurationNode = userNode.SelectSingleNode("savedgame/configuration");
+                if (configurationNode != null)
+                {
+                    int count = 0;
+                    foreach (XmlNode tile in configurationNode.ChildNodes)
+                    {
+                        configurationSaved[count] = tile.InnerText;
+                        count++;
+                    }
+                    
+                }
+                Play playWindow = new Play(playerName, buttonContents, configurationSaved, rows, cols, level, guessed);
+                playWindow.Show();
+                Close();
+            }
 
         }
 
         private void saveGameClicked(object sender, RoutedEventArgs e)
         {
+            if (previousButton == null)
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load("../../users/users.xml");
 
+                XmlNode userNode = doc.SelectSingleNode("/users/user[name='" + playerName + "']");
+                if (userNode != null)
+                {
+                    XmlNode savedgameNode = userNode.SelectSingleNode("savedgame");
+                    if (savedgameNode != null)
+                    {
+                        userNode.RemoveChild(savedgameNode);
+                    }
+
+                    savedgameNode = doc.CreateElement("savedgame");
+
+                    XmlNode matrixNode = doc.CreateElement("matrix");
+                    matrixNode.Attributes.Append(doc.CreateAttribute("rows")).Value = rows.ToString();
+                    matrixNode.Attributes.Append(doc.CreateAttribute("cols")).Value = columns.ToString();
+                    matrixNode.Attributes.Append(doc.CreateAttribute("level")).Value = currentLevelIndex.ToString();
+                    matrixNode.Attributes.Append(doc.CreateAttribute("guessed")).Value = pairsRevealed.ToString();
+                    for (int i = 0; i < rows; i++)
+                    {
+                        XmlNode rowNode = doc.CreateElement("row");
+                        for (int j = 0; j < columns; j++)
+                        {
+                            XmlNode buttonNode = doc.CreateElement("button");
+                            buttonNode.InnerText = buttonList[i * columns + j].Content.ToString() == "System.Windows.Controls.Image" ? tiles[i * columns + j] : "?";
+                            rowNode.AppendChild(buttonNode);
+                        }
+                        matrixNode.AppendChild(rowNode);
+                    }
+                    savedgameNode.AppendChild(matrixNode);
+
+                    XmlNode configNode = doc.CreateElement("configuration");
+                    savedgameNode.AppendChild(configNode);
+
+                    foreach (string s in tiles)
+                    {
+                        XmlNode stringNode = doc.CreateElement("tile");
+                        stringNode.InnerText = s;
+                        configNode.AppendChild(stringNode);
+                    }
+
+                    userNode.AppendChild(savedgameNode);
+
+                    doc.Save("../../users/users.xml");
+                }
+            }
+            else
+                System.Windows.MessageBox.Show("Game cannot be saved yet");
         }
 
         private void statisticsClicked(object sender, RoutedEventArgs e)

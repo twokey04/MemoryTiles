@@ -106,12 +106,11 @@ namespace MemoryTiles
                 XmlDocument doc = new XmlDocument();
                 doc.Load("../../users/users.xml");
 
-                XmlNodeList docUsers = doc.GetElementsByTagName("user");
-
-                foreach (XmlNode userNode in docUsers)
+                XmlNode userNode = doc.SelectSingleNode("/users/user[name='" + userList.SelectedItem.ToString() + "']");
+                if (userNode != null)
                 {
-                    if (userNode.FirstChild.InnerText == userList.SelectedItem.ToString())
-                        profilePicture.Source = new BitmapImage(new Uri(userNode.LastChild.InnerText, UriKind.Relative));
+                    XmlNode pictureNode = userNode.SelectSingleNode("profilepic");
+                    profilePicture.Source = new BitmapImage(new Uri(pictureNode.InnerText, UriKind.Relative));
                 }
             }
         }
@@ -137,7 +136,7 @@ namespace MemoryTiles
 
         private void buttonPlay_Click(object sender, RoutedEventArgs e)
         {
-            Window playWindow = new Play(userList.SelectedItem.ToString());
+            Window playWindow = new Play(userList.SelectedItem.ToString(), null, null);
             playWindow.Show();
             Close();
         }
