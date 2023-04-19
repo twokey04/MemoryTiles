@@ -2,7 +2,7 @@
 
 ## 🧰 Built With
 
-* C++
+* C#
 * WPF
 
 ## ▶️ Usage
